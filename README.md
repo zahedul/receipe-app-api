@@ -1,6 +1,6 @@
-# Receipe App Api
+# Recipe App Api
 
-Its a learning app.
+Its a Django learning app.
 
 ### specs
 
@@ -9,3 +9,15 @@ Its a learning app.
 - Docker
 - PostgreSql
 - Unittest
+
+## Docker command
+
+Build docker
+```shell script
+docker-compose build
+```
+
+Run Django unittest
+```shell script
+docker-compose run --rm app sh -c "python manage.py test && flake8"
+```
