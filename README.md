@@ -1,8 +1,9 @@
 # Receipe App Api
 
-Its a learning project
+Its a learning app.
 
 ### specs
+
 - Django
 - REST Api
 - Docker
