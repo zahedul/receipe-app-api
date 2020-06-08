@@ -1,7 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-import time
 
 from rest_framework.test import APIClient
 from rest_framework import status
@@ -132,9 +131,6 @@ class PrivateUserApiTests(TestCase):
         payload = {'name': 'new name', 'password': 'newpassword123'}
 
         res = self.client.patch(ME_URL, payload)
-
-        # Wait for 5 seconds
-        time.sleep(5)
 
         self.user.refresh_from_db()
         self.assertEqual(self.user.name, payload['name'])
