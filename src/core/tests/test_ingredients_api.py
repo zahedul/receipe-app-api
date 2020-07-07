@@ -10,7 +10,7 @@ from core.models import Ingredient
 from recipe.serializers import IngredientSerializer
 
 
-INGREDIENT_URL = reverse('recipe:ingredient-list')
+INGREDIENTS_URL = reverse('recipe:ingredient-list')
 
 
 class PublicIngreedientApiTests(TestCase):
@@ -21,7 +21,7 @@ class PublicIngreedientApiTests(TestCase):
 
     def test_login_required(self):
         """Test that login is required to access this endpoint"""
-        res = self.client.get(INGREDIENT_URL)
+        res = self.client.get(INGREDIENTS_URL)
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
@@ -41,7 +41,7 @@ class PrivateIngredientsAPITests(TestCase):
         Ingredient.objects.create(user=self.user, name='kale')
         Ingredient.objects.create(user=self.user, name='salf')
 
-        res = self.client.get(INGREDIENT_URL)
+        res = self.client.get(INGREDIENTS_URL)
 
         ingredients = Ingredient.objects.all().order_by('-name')
         serializer = IngredientSerializer(ingredients, many=True)
@@ -59,16 +59,16 @@ class PrivateIngredientsAPITests(TestCase):
 
         ingredient = Ingredient.objects.create(user=self.user, name='tumeric')
 
-        res = self.client.get(INGREDIENT_URL)
+        res = self.client.get(INGREDIENTS_URL)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(len(res.data), 1)
         self.assertEqual(res.data[0]['name'], ingredient.name)
 
     def test_create_ingredient_successful(self):
-        """Testt creating a new ingredient"""
+        """Test creating a new ingredient"""
         payload = {'name': 'Cabbage'}
-        self.client.post(INGREDIENT_URL, payload)
+        self.client.post(INGREDIENTS_URL, payload)
 
         exists = Ingredient.objects.filter(
             user=self.user,
@@ -77,8 +77,8 @@ class PrivateIngredientsAPITests(TestCase):
         self.assertTrue(exists)
 
     def test_create_ingredient_invalid(self):
-        """Test creating invalidf ingredient fails"""
-        payload= {'name': ''}
-        res = self.client.post(INGREDIENT_URL, payload)
+        """Test creating invalid ingredient fails"""
+        payload = {'name': ''}
+        res = self.client.post(INGREDIENTS_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
