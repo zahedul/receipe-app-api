@@ -21,3 +21,8 @@ Run Django unittest
 ```shell script
 docker-compose run --rm app sh -c "python manage.py test && flake8"
 ```
+
+Remove all container
+```shell script
+docker system prune
+```
